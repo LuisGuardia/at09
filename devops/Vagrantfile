@@ -1,10 +1,7 @@
 require'vagrant-openstack-provider'
 Vagrant.configure('2') do|config |
-
 	config.ssh.username = 'ubuntu'
-	config.ssh.private_key_path = "C:\\Users\\Admin\\Desktop\\key\\luisguardia.pem"
-	#config.ssh.private_key_path = ENV['OS_PRIVATE_KEY_PATH']
-	
+	config.ssh.private_key_path = ENV['OS_PRIVATE_KEY_PATH']
 	config.vm.provider :openstack do |os, override|
 		os.identity_api_version = ENV['OS_IDENTITY_API_VERSION']
 		os.openstack_auth_url = ENV['OS_AUTH_URL']
@@ -18,6 +15,7 @@ Vagrant.configure('2') do|config |
 		os.image = ENV['OS_IMAGE']
 		override.vm.synced_folder '.', '/vagrant', disabled: true
 	end
+	
 	config.vm.define 'server-1' do |s|
 		s.vm.provision "shell", path: "install_jenkins.sh"
 		s.vm.provider :openstack do |os, override|
